@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using MovieVault.API.Data;
 using MovieVault.API.Helpers;
 using MovieVault.API.Integrations.TMDB;
+using MovieVault.API.Middleware;
 using MovieVault.API.Repositories.Implementations;
 using MovieVault.API.Repositories.Interfaces;
 using MovieVault.API.Services.Implementations;
@@ -14,10 +15,15 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+const string outputTemplate = "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
+
 builder.Host.UseSerilog((context, config) =>
     config.ReadFrom.Configuration(context.Configuration)
-          .WriteTo.Console()
-          .WriteTo.File("logs/movievault-.log", rollingInterval: RollingInterval.Day));
+          .WriteTo.Console(outputTemplate: outputTemplate)
+          .WriteTo.File(
+              "logs/movievault-.txt",
+              rollingInterval: RollingInterval.Day,
+              outputTemplate: outputTemplate));
 
 // DbContext
 builder.Services.AddDbContext<MovieVaultDbContext>(options =>
@@ -105,6 +111,8 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
