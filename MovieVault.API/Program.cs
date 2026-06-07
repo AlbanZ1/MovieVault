@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieVault.API.Data;
 using MovieVault.API.Helpers;
+using MovieVault.API.Integrations.TMDB;
 using MovieVault.API.Repositories.Implementations;
 using MovieVault.API.Repositories.Interfaces;
 using MovieVault.API.Services.Implementations;
@@ -60,7 +61,11 @@ builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IWatchlistService, WatchlistService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<ITmdbService, TmdbService>();
 builder.Services.AddScoped<JwtTokenGenerator>();
+
+builder.Services.AddHttpClient();
+builder.Services.Configure<TmdbSettings>(builder.Configuration.GetSection("TmdbSettings"));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
