@@ -58,6 +58,7 @@ builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 
 // Services & helpers
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IWatchlistService, WatchlistService>();
 builder.Services.AddScoped<JwtTokenGenerator>();
 
 builder.Services.AddControllers();
