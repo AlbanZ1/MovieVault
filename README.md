@@ -1,31 +1,33 @@
-# MovieVault
+# MovieVault API
 
-A personal movie and TV tracking REST API. Users authenticate with JWT and can search TMDB for titles, manage watchlists, mark favourites, write reviews, and rate content on a 1–10 scale.
+A personal movie and TV tracking platform. Users authenticate with JWT and can search TMDB for titles, manage watchlists, mark favourites, write reviews, and rate content on a 1–10 scale. The solution is a .NET 8 REST API with a React (plain CSS) single-page frontend.
 
-**Course:** Service Oriented Architecture — 2026  
-**Team:** Nejazi Shabani · Alban Zulfija
+**Course:** Service Oriented Architecture — South East European University — 2026  
+**Team:** Nejazi Shabani &amp; Alban Zulfija
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Runtime | .NET 8 / ASP.NET Core |
-| Database | SQL Server (LocalDB for development) |
-| ORM | Entity Framework Core 8 |
-| Authentication | JWT Bearer |
-| Object mapping | AutoMapper |
-| Logging | Serilog (console + rolling file) |
-| API docs | Swashbuckle / Swagger UI |
-| Password hashing | BCrypt.Net-Next |
-| External data | TMDB REST API v3 |
-| Unit tests | xUnit + Moq + FluentAssertions |
+| Layer | Technology | Version |
+|---|---|---|
+| Runtime | .NET / ASP.NET Core | 8.0 |
+| Database | SQL Server (LocalDB for development) | 2019+ |
+| ORM | Entity Framework Core | 8.0.11 |
+| Authentication | JWT Bearer (`Microsoft.AspNetCore.Authentication.JwtBearer`) | 8.0.11 |
+| Object mapping | AutoMapper | 12.0.1 |
+| Logging | Serilog (`Serilog.AspNetCore`) | 8.0.3 |
+| API docs | Swashbuckle.AspNetCore (Swagger UI) | 6.6.2 |
+| Password hashing | BCrypt.Net-Next | 4.2.0 |
+| External data | TMDB REST API | v3 |
+| Unit tests | xUnit · Moq · FluentAssertions | 2.5.3 · 4.20.72 · 8.10.0 |
+| Frontend | React · React Router DOM · Axios (plain CSS) | 18 · 6 · 1 |
 
 ---
 
 ## Prerequisites
 
+- [Node.js](https://nodejs.org/) 18 LTS or later (for the React frontend)
 - [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8)
 - SQL Server LocalDB (ships with Visual Studio) or any SQL Server instance
 - A free [TMDB API key](https://www.themoviedb.org/settings/api)
@@ -83,6 +85,25 @@ dotnet test MovieVault.Tests
 ```
 
 25 unit tests covering Auth, Watchlist, Review, Favorite, and Rating services.
+
+---
+
+## Frontend (React Client)
+
+The `movievault-client` folder contains a React single-page app (plain CSS, dark cinematic theme).
+
+```bash
+cd movievault-client
+npm install        # first time only
+npm start          # runs at http://localhost:3000
+```
+
+The client expects the API at `https://localhost:5001/api` (configured in `src/services/api.js`).
+Make sure the API is running first, and that its HTTPS dev certificate is trusted:
+
+```bash
+dotnet dev-certs https --trust
+```
 
 ---
 
